@@ -1,94 +1,111 @@
-#task1: Input and Prints
-name = str(input("Enter your name: "))     #for name 
-fav_lang = str(input("Enter your favourite programming language: "))   #for favourite programming language
+# main.py
 
-print(f'Hello', {name}, 'you love', {fav_lang}) # printing the output
+# Step 1: System Setup
+courses = {
+    "CS101": {
+        "title": "Intro to Computer Science",
+        "instructor": "Dr. Smith",
+        "capacity": 30,
+        "enrolled": set()
+    },
+    "MATH203": {
+        "title": "Calculus II",
+        "instructor": "Dr. Johnson",
+        "capacity": 25,
+        "enrolled": set()
+    },
+    "PHY150": {
+        "title": "General Physics",
+        "instructor": "Dr. Clark",
+        "capacity": 20,
+        "enrolled": set()
+    },
+    "ENG102": {
+        "title": "English Composition",
+        "instructor": "Dr. Taylor",
+        "capacity": 40,
+        "enrolled": set()
+    },
+    "BIO110": {
+        "title": "Introduction to Biology",
+        "instructor": "Dr. Lee",
+        "capacity": 35,
+        "enrolled": set()
+    }
+}
 
-#task2: Input and Prints
-first_num = int(input("Enter the first number  number: "))   #for first number
-seconde_num = int(input("Enter the second number number: ")) #for second number
+registered_courses = set()
 
-sum_result = first_num + seconde_num   # calculating sum of two numbers
-diff_result = first_num - seconde_num  # calculating difference of two numbers  
+def display_courses():
+    """Displays all available courses with details."""
+    print("\nAvailable Courses:")
+    for code, details in courses.items():
+        print(f"Course Code: {code}")
+        print(f"Title: {details['title']}")
+        print(f"Instructor: {details['instructor']}")
+        print(f"Capacity: {details['capacity']}")
+        print(f"Enrolled: {len(details['enrolled'])}")
+        print("-" * 40)
 
-print(f'Sum of the two numbers:', {sum_result})  # printing the sum of two numbers
-print(f'Difference of the two numbers:', {diff_result})  # printing the difference of two numbers
+def register_course():
+    """Registers the user for a course, ensuring no duplicates or exceeding capacity."""
+    course_code = input("Enter the course code to register: ").strip().upper()
+    if course_code in courses:
+        details = courses[course_code]
+        if len(details['enrolled']) < details['capacity']:
+            if course_code not in registered_courses:
+                details['enrolled'].add("Student")  # Replace "Student" with a unique identifier if needed
+                registered_courses.add(course_code)
+                print(f"Successfully registered for {course_code}: {details['title']}.")
+            else:
+                print(f"You are already registered for {course_code}.")
+        else:
+            print(f"Course {course_code} is full.")
+    else:
+        print("Invalid course code.")
 
-#task3:Numbers and Arithmetic Operations
+def drop_course():
+    """Allows the user to drop a course they are registered for."""
+    course_code = input("Enter the course code to drop: ").strip().upper()
+    if course_code in registered_courses:
+        courses[course_code]['enrolled'].remove("Student")  # Replace "Student" with a unique identifier if needed
+        registered_courses.remove(course_code)
+        print(f"Successfully dropped {course_code}.")
+    else:
+        print(f"You are not registered for {course_code}.")
 
-length = int(input("Enter the length of the rectangle: "))  #for length of the rectangle
-width = int(input("Enter the width of the rectangle: "))  #for width of the rectangle
-
-area = length * width  # calculating area of the rectangle     
-print(f'The area of the rectangle is :', {area})  # printing the area of the rectangle
-
-#task4:Numbers and Arithmetic Operations
-
-number = int(input("Enter the number: "))  #for number
-if(number % 3 == 0 and number % 5 == 0):  # checking if the number is divisible by both 3 and 5
-    print({number},f'is divisible by 3 and 5' )
-else: # if the number is not divisible by both 3 and 5
-    print( [number],f'is not divisible by 3 and 5' )
-
-#task5:Strings and Lists
-sentence = str(input("Enter a sentence: "))  #for lowercase word
-uppercased__word = sentence.upper()  # converting the sentence to uppercase
-word_count = len(sentence.split())  # counting the number of words in the sentence
-print(f"The sentence in uppercase: ", {uppercased__word})  # printing the sentence in uppercase
-print(f"Number of words: ", {word_count})  # printing the length of the sentence
-
-
-#task6:Strings and Lists
-favourite_fruits =[]  # creating an empty list
-
-for i in range(1,6):  # Loop to collect 5 favorite fruits from the user
-    fruit = input(f"Enter your favorite fruit {i}: ")
-    favourite_fruits.append(fruit)  # adding the fruit to the list
-
-print('Your favourite fruits are:', favourite_fruits[::-1])  # printing the list of favourite fruits
-
-#task7:Conditionals
-user_age = int(input(f"Enter your ege: ")) #the age of the user
-if (user_age >= 18): #check if the user is above 18 
-    print("You are  eligible to vote. ")
-else:
-    print("You are not eligible to vote. ") #if the user is below 18 years old
-
-#task8:Conditionals
-checking_number = int(input("Enter a number: "))  #for number
-if (checking_number < 0):  # checking if the number is negative
-    print("The number " , checking_number , " is negative.")
-elif(checking_number > 0):  # checking if the number is positive
-    print("The number " , checking_number , " is positive.")
-else:
-    print("The number " , checking_number , " is zero.")  # if the number is zero
-
-
-#task9:Loops
-user_input = int(input("Enter a number: "))  #for number
-number = 1  # initializing the number
-
-while (number <= user_input):
-    number += 1  # loop to print the numbers from 1 to the user's
-    if (number % 2 == 0):
-        print(number, end=" ")  # printing the even numbers
-        number += 1  # incrementing the number
-
-print("there is no even number")  # if there is no even number
-
-
-
-#task10:Loops
-the_number = int(input("Enter a number: "))  #for number
-number  = 1  # initializing the number
-factorial = 1  # initializing the factorial
-
-
-while (number <= the_number):
-    factorial  *= number  # calculating the factorial of the number
-    number += 1  # loop to print the numbers from 1 to the user's
-
-print(f"The factorial of {the_number} is  {factorial}")  # printing the factorial of the number
+def view_registered_courses():
+    """Displays all courses the user is currently registered for."""
+    if not registered_courses:
+        print("You are not registered for any courses.")
+    else:
+        print("You are registered for the following courses:")
+        for course_code in registered_courses:
+            title = courses[course_code]['title']
+            print(f"- {course_code}: {title}")
 
 
+    """Displays the main menu and handles user choices."""
+while True:
+        print("\nWelcome to the Course Registration System!")
+        print("1. View all courses")
+        print("2. Register for a course")
+        print("3. Drop a course")
+        print("4. View my courses")
+        print("5. Exit")
+        
+        choice = input("Choose an option: ").strip()
+        if choice == "1":
+            display_courses()
+        elif choice == "2":
+            register_course()
+        elif choice == "3":
+            drop_course()
+        elif choice == "4":
+            view_registered_courses()
+        elif choice == "5":
+            print("Thank you for using the Course Registration System. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
