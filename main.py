@@ -65,7 +65,7 @@ def register_course():
 
 # function to delete a courses
 def drop_course():
-    """Allows the user to drop a course they are registered for."""
+    # to drop a course that the user has already registered
     course_code = input("Enter the course code to drop: ").strip().upper()
     if course_code in registered_courses:
         courses[course_code]['enrolled'].remove("Student")  
@@ -75,7 +75,7 @@ def drop_course():
         print(f"You are not registered for {course_code}.")
 
 def view_registered_courses():
-    """Displays all courses the user is currently registered for."""
+    #to show the courses that the user has already registered
     if not registered_courses:
         print("You are not registered for any courses.")
     else:
@@ -104,7 +104,7 @@ while True:
         elif choice == "4":
             view_registered_courses()
         elif choice == "5":
-            print("Thank you for using the Course Registration System. Goodbye!")
+            print("Thank you for using the Course Registration System. Goodbye!") # to stop the loop
             break
         else:
             print("Invalid choice. Please try again.") # it will show when the code was invalid 
